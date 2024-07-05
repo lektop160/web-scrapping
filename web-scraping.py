@@ -5,11 +5,11 @@ from urllib.parse import *
 import time
 import sqlite3
 
-# Подключение к базе данных (если файла нет, он будет создан)
+# Connect to the SQLite database. If the database does not exist, it will be created.
 conn = sqlite3.connect('kaspi.db')
 cursor = conn.cursor()
 
-# Создание таблицы, если она еще не существует
+# Create a table named 'scraped_data' if it does not exist.
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS scraped_data (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,6 +23,17 @@ conn.commit()
 
 
 def findMainUrl(url, headers):
+    """
+    This function sends a GET request to the specified URL and extracts all 'a href' elements from a specific block.
+    It then processes each extracted URL by calling the 'Scrapping' function.
+
+    Parameters:
+    url (str): The URL to send the GET request to.
+    headers (dict): The headers to include in the GET request.
+
+    Returns:
+    None
+    """
     response = requests.get(url, headers=headers)
     response.raise_for_status()
     
@@ -42,9 +53,19 @@ def findMainUrl(url, headers):
         print(f"The specified block was not found on the page.      {url}")
         findMainUrl(url, headers)
     
-    
+
 def Scrapping(url, headers):
-    
+    """
+    This function sends a GET request to the specified URL and extracts all 'a href' elements from a specific block.
+    It then processes each extracted URL by calling the 'getElements' function.
+
+    Parameters:
+    url (str): The URL to send the GET request to.
+    headers (dict): The headers to include in the GET request.
+
+    Returns:
+    None
+    """
     response = requests.get(url, headers=headers)
     response.raise_for_status()
 
@@ -62,6 +83,18 @@ def Scrapping(url, headers):
      
         
 def getElements(url, headers, mainUrl):
+    """
+    This function sends a GET request to the specified URL and extracts specific elements from a specific block.
+    It then inserts the extracted data into the 'scraped_data' table in the SQLite database.
+
+    Parameters:
+    url (str): The URL to send the GET request to.
+    headers (dict): The headers to include in the GET request.
+    mainUrl (str): The original URL from which the current URL was extracted.
+
+    Returns:
+    None
+    """
     response = requests.get(url, headers=headers)
     response.raise_for_status()
 
