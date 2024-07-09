@@ -97,3 +97,7 @@ class Scrapper:
         
         self.find_main_url(url, headers)
         self.conn.close()
+
+def scrapper_main():
+    scrapper = Scrapper()
+    scrapper.run()
