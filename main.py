@@ -1,7 +1,5 @@
 from webSearch import search
 from webScraping import Scrapper
-import os
-import keyboard as keyb
 
 if __name__ == "__main__":
     print("""• Choose operation: 
@@ -14,7 +12,6 @@ if __name__ == "__main__":
         print("Y/N")
         choose = input("")
         if choose.upper() == "Y":
-            os.remove("kaspi.db")
             Scrapper().run()
         elif choose.upper() == "N":
             exit()
